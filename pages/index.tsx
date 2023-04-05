@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Button, Space, Layout } from "antd";
 import Slot from "../components/Slot";
 import { getWhereData, getWhatData } from "../utils/getData";
+import styles from '../components/header.module.scss';
 
 const Home = () => {
   const [isStarted, setIsStarted] = useState(false);
@@ -11,12 +12,8 @@ const Home = () => {
 
   const { Header, Content } = Layout;
 
-  const handleStart = () => {
-    setIsStarted(true);
-  };
-
-  const handleStop = () => {
-    setIsStarted(false);
+  const handleToggle = () => {
+    setIsStarted(!isStarted);
   };
 
   useEffect(() => {
@@ -28,44 +25,29 @@ const Home = () => {
   return (
     <div>
       <Head>
-        <title>さんぽ神</title>
-        <meta name="description" content="さんぽ神アプリ" />
+        <title>GOD SAMPO</title>
+        <meta name="description" content="GOD SAMPO" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout className="layout">
-        <Header className="header">
-          <div className="logo">さんぽ神</div>
-        </Header>
-        <Content>
-          <Space>
-            <Slot items={whereItems} isStarted={isStarted} />
-            <Slot items={whatItems} isStarted={isStarted} />
-          </Space>
+      <Layout className="layout" style={{ minHeight: '100vh', backgroundColor: '#E9EBED'}}>
+      <Header className={styles.header}>
+        <div className={styles.logo}>GOD SAMPO</div>
+      </Header>
+        <Content style={{ padding: '20px 5px' }}>
+          <Slot items={whereItems} isStarted={isStarted} label="どこで" />
+          <Slot items={whatItems} isStarted={isStarted} label="なにをする" />
           <br />
-          <Button type="primary" onClick={handleStart} disabled={isStarted}>
-            スロットを回す
-          </Button>
-          <Button onClick={handleStop} disabled={!isStarted}>
-            スロットを止める
-          </Button>
+          <div className={styles.buttonWrapper}>
+            <Button
+              onClick={handleToggle}
+              className="button-slot"
+            >
+              {isStarted ? "STOP" : "START"}
+            </Button>
+          </div>
         </Content>
       </Layout>
-
-      {/* <style jsx>{`
-        .logo {
-          color: #fff;
-          font-size: 24px;
-          font-weight: bold;
-          text-align: center;
-        }
-        .header {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #1890ff;
-        }
-        `}</style> */}
     </div>
   );
 };

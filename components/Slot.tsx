@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
+import styles from "./slot.module.scss";
 
 interface SlotProps {
   items: string[];
   isStarted: boolean;
+  label: string;
 }
 
-const Slot: React.FC<SlotProps> = ({ items, isStarted }) => {
+const Slot: React.FC<SlotProps> = ({ items, isStarted, label }) => {
   const [selectedItem, setSelectedItem] = useState("");
+
+  useEffect(() => {
+    if (items.length > 0) {
+      setSelectedItem(items[0]);
+    }
+  }, [items]);
+
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | undefined;
@@ -24,7 +33,12 @@ const Slot: React.FC<SlotProps> = ({ items, isStarted }) => {
     };
   }, [isStarted, items]);
 
-  return <div>{selectedItem}</div>;
+  return (
+    <div className={styles.slot}>
+      <div className={styles.label}>{label}</div>
+      <div className={styles.selectedItem}>{selectedItem}</div>
+    </div>
+  );
 };
 
 export default Slot;
